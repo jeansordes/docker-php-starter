@@ -4,12 +4,10 @@ volumes:
   data:
 
 services:
-  php-composer:
-    build:
-      context: ./app/lib
-      dockerfile: php-composer.dockerfile
+  php-app-init:
+    image: composer
     volumes:
-      - ./app/lib:/var/www/html/
+      - ./app/lib:/app
     command: composer update
   php-apache:
     build:
@@ -22,7 +20,7 @@ services:
     volumes:
       - .:/var/www/html/
     depends_on:
-      - php-composer
+      - php-app-init
   database:
     image: postgres:12
     restart: always
